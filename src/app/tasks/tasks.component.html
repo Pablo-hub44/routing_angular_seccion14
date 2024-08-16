@@ -1,9 +1,17 @@
+<p>
+    <a routerLink="./" [queryParams]="{orden: 'asc'}">
+        <!-- podemos poner parametro a la url con queryParams ?orden:asc-->
+        Orden ascendente / Descendente
+    </a>
+</p>
+
+<p>{{userId()}}</p>
 <ul>
-  @for (task of userTasks; track task.id) {
+    @for (task of userTasks(); track task.id) {
     <li>
-      <app-task [task]="task" />
+        <app-task [task]="task" />
     </li>
-  } @empty {
+    } @empty {
     <p>There are no tasks yet. Start adding some!</p>
-  }
+    }
 </ul>

@@ -1,10 +1,13 @@
 <section id="tasks">
-  <header>
-    <h2>USERS Tasks</h2>
-    <menu>
-      <a>Add Task</a>
-    </menu>
-  </header>
+    <header>
+        <h2>{{userName}} Tasks</h2>
+        <menu>
+            <!-- ruta relativa, esta es la version corta pero por dentro se pone la ruta complerta users/:userId/tasks/new -->
+            <a routerLink="tasks/new">Add Task</a>
+        </menu>
+    </header>
 
-  <p>Todo ...</p>
+    <!-- <p>Todo ...</p> -->
+    <!-- agregamos el componente de ruta q sea dinamico -->
+    <router-outlet></router-outlet>
 </section>

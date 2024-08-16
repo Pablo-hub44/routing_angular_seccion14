@@ -2,6 +2,7 @@ import { Component, inject, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { TasksService } from '../tasks.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-task',
@@ -15,7 +16,10 @@ export class NewTaskComponent {
   enteredTitle = signal('');
   enteredSummary = signal('');
   enteredDate = signal('');
+  //inyeccion de dependencias
   private tasksService = inject(TasksService);
+
+  private router = inject(Router);//para poder regiridir a otras paginas
 
   onSubmit() {
     this.tasksService.addTask(
@@ -26,5 +30,10 @@ export class NewTaskComponent {
       },
       this.userId()
     );
+    //redirigimos a la pagina del usuario
+    this.router.navigate(['/users',this.userId(), 'tasks'],{
+      replaceUrl: true,//con esto se asegura que si esta reemplazando la ruta, no muy usado 
+
+    })
   }
 }

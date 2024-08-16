@@ -1,6 +1,8 @@
 <div>
-  <a>
-    <img [src]="imagePath()" [alt]="user().name" />
-    <span>{{ user().name }}</span>
-  </a>
+    <!-- gracias al routerlink cuando carga el tasks ya no se vuelve a recuperar todo la ruta se actualizo, todo lo q tiene dentro es la ruta-->
+    <a [routerLink]="['users/'+user().id,'tasks']" routerLinkActive="selected">
+        <!--href="/tasks"-->
+        <img [src]="imagePath()" [alt]="user().name" />
+        <span>{{ user().name }}</span>
+    </a>
 </div>

@@ -1,8 +1,8 @@
 import { CanMatch, CanMatchFn, RedirectCommand, Route, Router, Routes } from "@angular/router";
-import { TasksComponent } from "./tasks/tasks.component";
+// import { TasksComponent } from "./tasks/tasks.component";
 import { NoTaskComponent } from "./tasks/no-task/no-task.component";
 import { resolvedUserName, resolveTitle, UserTasksComponent } from "./users/user-tasks/user-tasks.component";
-import { NewTaskComponent } from "./tasks/new-task/new-task.component";
+// import { NewTaskComponent } from "./tasks/new-task/new-task.component";
 import { NotFoundComponent } from "./not-found/not-found.component";
 import { userRoutes } from "./user.routes";
 import { inject } from "@angular/core";
@@ -30,7 +30,10 @@ export const routes: Routes = [
     {
         path: 'users/:userId', // eldominio/users/<userId>
         component: UserTasksComponent, // por defecto, un componente solo puede obtener los parametros de ruta que pertenecen a su ruta, para q las hijas accedan a esos parametros hay que configurar en el appconfig
-        children: userRoutes, //lo pusimos en otro file para probar, 
+
+        //children: userRoutes, //lo pusimos en otro file para probar, //* rutas hijas 
+        //!con lazy loading a todas las rutas hijas :)
+        loadChildren: ()=> import('./user.routes').then(mod => mod.userRoutes),
         data:{
             message:'Hellou'//se puede agregar tambien data estatica a la ruta pd no muy usado 
         },

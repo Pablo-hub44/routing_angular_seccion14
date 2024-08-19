@@ -1,7 +1,7 @@
 import { Component, computed, DestroyRef, inject, input, OnInit } from '@angular/core';
 import { User } from '../user/user.model';
 import { UsersService } from '../users.service';
-import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-user-tasks',
@@ -29,6 +29,8 @@ set userId(uid: string) {
 }
    */
 
+  
+  message = input.required<string>();//para probar el dato puesto en la ruta.
   //conseguimos el usuario del service
   private userService = inject(UsersService);
   private destroyRef = inject(DestroyRef);
@@ -42,6 +44,8 @@ set userId(uid: string) {
 
 
   ngOnInit(): void {
+    console.log('Input Data: '+this.message());
+    
     console.log(this.activatedRoute);
     console.log(this.activatedRoute.snapshot.paramMap.get('userId'));//consigues el dato pero no es reactivo(no se actualizada rapidamente)
     console.log(this.activatedRoute);
@@ -52,7 +56,25 @@ set userId(uid: string) {
       }
     });
 
+    //conseguir el username de la ruta para conocer
+    // this.activatedRoute.data.subscribe({
+    //   next: data =>{
+    //     console.log(data);//aqui dentro estaria el userName
+        
+    //   }
+    // })
+
     //cerramos la subscripcion
     this.destroyRef.onDestroy(()=> subscription.unsubscribe)
   }
+
+  
+}
+
+//metodo para el parametro revolse en las rutas, cuando hacemos un lambda function podemos ponerle el tipo de dato
+export const  resolvedUserName : ResolveFn<string> = (activatedRoute: ActivatedRouteSnapshot)=>{
+    const userService = inject(UsersService);
+    const userName = userService.users.find(u => u.id == activatedRoute.paramMap.get('userId'))?.name || '';
+
+    return userName;//retornamos el nombre del usuario
 }

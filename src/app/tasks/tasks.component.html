@@ -1,11 +1,12 @@
+<!-- aqui pondremos funcionalidad para que se ordenen  las tareas-->
 <p>
-    <a routerLink="./" [queryParams]="{orden: 'asc'}">
-        <!-- podemos poner parametro a la url con queryParams ?orden:asc-->
-        Orden ascendente / Descendente
+    <a routerLink="./" [queryParams]="{orden: order() === 'asc' ? 'desc' : 'asc'}">
+        <!-- podemos poner parametro a la url con queryParams quedaria: ?orden:asc, y ahora el valor lo estamos igualando al que passmos como input order-->
+        Orden {{order() === 'asc' ? 'Descendente': 'Ascendente'}}
     </a>
 </p>
 
-<p>{{userId()}}</p>
+<!-- <p>{{userId()}}</p> -->
 <ul>
     @for (task of userTasks(); track task.id) {
     <li>

@@ -1,7 +1,7 @@
 import { Component, computed, DestroyRef, inject, input, OnInit } from '@angular/core';
 import { User } from '../user/user.model';
 import { UsersService } from '../users.service';
-import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, RouterLink, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, RouterLink, RouterOutlet, RouterState, RouterStateSnapshot } from '@angular/router';
 
 @Component({
   selector: 'app-user-tasks',
@@ -72,9 +72,24 @@ set userId(uid: string) {
 }
 
 //metodo para el parametro revolse en las rutas, cuando hacemos un lambda function podemos ponerle el tipo de dato
-export const  resolvedUserName : ResolveFn<string> = (activatedRoute: ActivatedRouteSnapshot)=>{
+export const  resolvedUserName : ResolveFn<string> = (activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot)=>{
     const userService = inject(UsersService);
     const userName = userService.users.find(u => u.id == activatedRoute.paramMap.get('userId'))?.name || '';
 
     return userName;//retornamos el nombre del usuario
 }
+
+//otro metodo para el otro resolve
+export const resolveTitle: ResolveFn<string> = (activatedRoute,routerState)=>{
+  //reutiliizamos nuestro metodo de arriba
+return resolvedUserName(activatedRoute,routerState) + '\'s tareas'
+
+/**
+ * La función resolveTitle es una manera eficiente de pre-resolver datos antes de cargar una ruta en Angular, asegurando que ciertos datos estén disponibles de inmediato al entrar en una ruta específica. En este caso, se construye un título basado en el nombre del usuario que se obtiene dinámicamente.
+ * 
+ * activatedRoute: Es una instancia de ActivatedRouteSnapshot, que proporciona acceso a información sobre la ruta que se está activando, incluyendo parámetros de ruta, datos, etc.
+routerState: Es una instancia de RouterStateSnapshot, que ofrece una imagen del estado completo del router en un momento determinado.
+ */
+}
+  
+

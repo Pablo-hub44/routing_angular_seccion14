@@ -4,6 +4,7 @@ import { DatePipe } from '@angular/common';
 import { type Task } from './task.model';
 import { CardComponent } from '../../shared/card/card.component';
 import { TasksService } from '../tasks.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-task',
@@ -15,8 +16,16 @@ import { TasksService } from '../tasks.service';
 export class TaskComponent {
   task = input.required<Task>();
   private tasksService = inject(TasksService);
+  private router = inject(Router); //para hacer redirecciones de pagina
+  private activatedRoute = inject(ActivatedRoute);
+
 
   onComplete() {
     this.tasksService.removeTask(this.task().id);
+    this.router.navigate(['./'],{//segundo parametro es de configuracion
+      relativeTo: this.activatedRoute,
+      onSameUrlNavigation: 'reload',//para que recargue la pagina, por default esta en ingore
+      queryParamsHandling: 'preserve',//para asegurar que los parametros de consulta se conserven.
+    });
   }
 }

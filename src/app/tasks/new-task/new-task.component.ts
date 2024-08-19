@@ -16,9 +16,10 @@ export class NewTaskComponent {
   enteredTitle = signal('');
   enteredSummary = signal('');
   enteredDate = signal('');
+
+  submitted = false;
   //inyeccion de dependencias
   private tasksService = inject(TasksService);
-
   private router = inject(Router);//para poder regiridir a otras paginas
 
   onSubmit() {
@@ -30,6 +31,8 @@ export class NewTaskComponent {
       },
       this.userId()
     );
+    this.submitted = true;
+
     //redirigimos a la pagina del usuario
     this.router.navigate(['/users',this.userId(), 'tasks'],{
       replaceUrl: true,//con esto se asegura que si esta reemplazando la ruta, no muy usado 
